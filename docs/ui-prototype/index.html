@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Royalty by Careem — Captain UI Prototype</title>
+  <title>Careem Captain Progress</title>
   <style>
     :root {
       --green-dark: #007a3d;
@@ -14,225 +14,318 @@
       --card: #ffffff;
       --text: #0f172a;
       --muted: #64748b;
+      --border: #e2e8f0;
     }
     * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { margin: 0; background: #0f172a; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 16px; }
     .phone {
-      width: 380px; height: 760px; background: var(--bg); border-radius: 36px;
+      width: 390px; height: 800px; background: var(--bg); border-radius: 36px;
       border: 8px solid #1e293b; overflow: hidden; display: flex; flex-direction: column;
       box-shadow: 0 25px 60px rgba(0,0,0,0.5);
     }
     .header {
       background: linear-gradient(135deg, var(--green-dark), var(--green));
-      color: #fff; padding: 18px 18px 14px;
+      color: #fff; padding: 20px 18px 14px;
     }
     .header-top { display: flex; justify-content: space-between; align-items: center; }
     .brand { font-weight: 800; font-size: 17px; letter-spacing: -0.3px; }
-    .country-pill {
+    .pill-light {
       background: rgba(255,255,255,0.2); border: none; color: #fff;
-      padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; cursor: pointer;
+      padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;
     }
     .sub { font-size: 12px; opacity: 0.9; margin-top: 4px; }
     .content { flex: 1; overflow-y: auto; padding: 14px; }
-    .screen { display: none; }
-    .screen.active { display: block; }
+    .section-label {
+      font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px;
+      color: var(--muted); margin: 12px 2px 8px;
+    }
+    .section-label:first-child { margin-top: 2px; }
     .card {
-      background: var(--card); border-radius: 16px; padding: 14px; margin-bottom: 12px;
-      box-shadow: 0 2px 8px rgba(15,23,42,0.05);
+      background: var(--card); border-radius: 16px; padding: 14px; margin-bottom: 10px;
+      box-shadow: 0 2px 8px rgba(15,23,42,0.05); border: 1px solid var(--border);
     }
-    .hero { background: linear-gradient(135deg, #064e3b, var(--green-dark)); color: #fff; }
-    .tier-row { display: flex; justify-content: space-between; align-items: center; }
-    .badge { background: var(--gold); color: #1e293b; font-weight: 800; font-size: 11px; padding: 4px 9px; border-radius: 999px; }
-    .split-big { font-size: 28px; font-weight: 800; margin: 8px 0 2px; }
-    .split-sub { font-size: 12px; opacity: 0.85; }
-    .bar-bg { background: rgba(255,255,255,0.22); height: 9px; border-radius: 999px; margin: 10px 0 6px; overflow: hidden; }
-    .bar-fill { background: #4ade80; height: 100%; width: 63%; border-radius: 999px; transition: width 0.3s; }
+    .hero {
+      background: linear-gradient(135deg, #064e3b, var(--green-dark));
+      color: #fff; border: none;
+    }
+    .hero-top { display: flex; justify-content: space-between; align-items: baseline; }
+    .pct-big { font-size: 38px; font-weight: 900; line-height: 1; }
+    .pct-cap { font-size: 12px; opacity: 0.85; font-weight: 600; }
+    .hero-sub { font-size: 12.5px; opacity: 0.92; margin-top: 6px; }
+
+    /* 3-Step Visual Journey Track */
+    .track { display: flex; align-items: center; justify-content: space-between; margin: 14px 0 8px; position: relative; }
+    .track-line { position: absolute; left: 10%; right: 10%; top: 13px; height: 4px; background: rgba(255,255,255,0.22); border-radius: 999px; z-index: 0; }
+    .track-fill { height: 100%; background: #4ade80; border-radius: 999px; transition: width 0.3s; }
+    .node { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; width: 33%; }
+    .dot {
+      width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; background: rgba(255,255,255,0.18); color: #fff; border: 2px solid rgba(255,255,255,0.35);
+    }
+    .dot.done { background: #4ade80; color: #064e3b; border-color: #4ade80; }
+    .dot.active { background: #fff; color: var(--green-dark); border-color: #4ade80; box-shadow: 0 0 0 4px rgba(74,222,128,0.3); }
+    .node-lbl { font-size: 11px; font-weight: 700; opacity: 0.95; }
+
+    .bar-bg { background: #e2e8f0; height: 8px; border-radius: 999px; overflow: hidden; margin: 8px 0 6px; }
+    .bar-fill { background: var(--green); height: 100%; border-radius: 999px; transition: width 0.3s; }
     .row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
-    .pill-ok { background: var(--mint); color: var(--green-dark); padding: 3px 8px; border-radius: 999px; font-weight: 700; font-size: 11px; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat-card {
+      background: var(--card); border-radius: 14px; padding: 12px; border: 1px solid var(--border);
+    }
+    .stat-icon { font-size: 20px; }
+    .stat-val { font-size: 20px; font-weight: 800; color: var(--text); margin-top: 4px; }
+    .stat-lbl { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .stat-next { font-size: 11px; color: var(--green-dark); font-weight: 700; margin-top: 4px; }
+
+    .reward-card {
+      display: flex; gap: 12px; align-items: center; padding: 12px; border-radius: 14px;
+      background: var(--card); border: 1px solid var(--border); margin-bottom: 8px;
+    }
+    .reward-card.done { border-color: #86efac; background: #f0fdf4; }
+    .reward-card.current { border: 2px solid var(--green); background: var(--mint); }
+    .reward-card.locked { opacity: 0.72; }
+    .reward-icon {
+      width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0; background: #f1f5f9;
+    }
+    .reward-card.done .reward-icon, .reward-card.current .reward-icon { background: #dcfce7; }
+    .reward-body { flex: 1; }
+    .reward-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+    .reward-range { font-size: 12px; font-weight: 800; color: var(--text); }
+    .status-pill { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 999px; }
+    .status-done { background: #bbf7d0; color: #14532d; }
+    .status-current { background: var(--green); color: #fff; }
+    .status-locked { background: #e2e8f0; color: #475569; }
+    .reward-title { font-size: 13px; font-weight: 700; color: var(--text); margin-top: 3px; }
+    .reward-req { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .sim-bar {
+      display: flex; gap: 8px; padding: 10px 14px 14px; background: #fff; border-top: 1px solid var(--border);
+    }
     .btn {
-      width: 100%; background: var(--green); color: #fff; border: none; padding: 11px;
-      border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; margin-top: 8px;
+      flex: 1; background: var(--green); color: #fff; border: none; padding: 10px;
+      border-radius: 12px; font-weight: 700; font-size: 12px; cursor: pointer;
     }
-    .btn:active { transform: scale(0.98); }
-    .btn-outline { background: var(--mint); color: var(--green-dark); }
-    .tier-item {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 12px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 8px;
-    }
-    .tier-item.current { border: 2px solid var(--green); background: var(--mint); }
-    .tier-item.locked { opacity: 0.65; }
-    .quest-tag { font-size: 10px; font-weight: 700; color: var(--green-dark); background: var(--mint); padding: 2px 7px; border-radius: 6px; }
-    .lifestyle-card { border-left: 4px solid var(--gold); }
-    .nav {
-      display: flex; background: #fff; border-top: 1px solid #e2e8f0; padding: 8px 4px 12px;
-    }
-    .nav button {
-      flex: 1; background: none; border: none; color: var(--muted); font-size: 11px; font-weight: 600;
-      cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
-    }
-    .nav button.active { color: var(--green-dark); font-weight: 800; }
-    .toast {
-      position: fixed; bottom: 24px; background: #0f172a; color: #fff; padding: 10px 16px;
-      border-radius: 12px; font-size: 12px; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    }
+    .btn-sec { background: var(--mint); color: var(--green-dark); }
+    .note { font-size: 10.5px; color: var(--muted); text-align: center; margin-top: 4px; }
   </style>
 </head>
 <body>
   <div class="phone">
     <div class="header">
       <div class="header-top">
-        <div class="brand">Careem · ROYALTY</div>
-        <button class="country-pill" id="marketBtn" onclick="cycleMarket()">🇯🇴 Amman (JOD)</button>
+        <div class="brand">Careem · Captain Progress</div>
+        <span class="pill-light">Amman · JOD</span>
       </div>
-      <div class="sub">Captain Ahmad · Season 11 · 18 days left</div>
+      <div class="sub">Base 75% · Earn up to +15% (Max 90%)</div>
     </div>
 
     <div class="content">
-      <!-- SCREEN 1: HUB -->
-      <div id="hub" class="screen active">
-        <div class="card hero">
-          <div class="tier-row">
-            <span class="badge">TIER 4 · PRO</span>
-            <span style="font-size:12px;">🛡️ 1 Tier Shield</span>
+      <!-- SECTION 1: PROGRESS PERCENTAGE -->
+      <div class="section-label">1. Progress Percentage</div>
+      <div class="card hero">
+        <div class="hero-top">
+          <div>
+            <div class="pct-big" id="pctDisplay">81%</div>
+            <div class="hero-sub" id="rangeDisplay">Current Range: 80% – 85% (+6% earned of +15%)</div>
           </div>
-          <div class="split-big" id="splitDisplay">52% Yours</div>
-          <div class="split-sub">48% Careem · +12% uplift vs. Rookie</div>
-          <div class="bar-bg"><div class="bar-fill"></div></div>
-          <div class="row">
-            <span>5,400 / 8,500 XP</span>
-            <span>3,100 XP to T5 (56%)</span>
+          <div class="pct-cap" id="cutDisplay">Careem Cut: 19%</div>
+        </div>
+
+        <div class="track">
+          <div class="track-line"><div class="track-fill" id="trackFill" style="width: 40%;"></div></div>
+          <div class="node">
+            <div class="dot done" id="dot1">✓</div>
+            <div class="node-lbl">75%–80%</div>
+          </div>
+          <div class="node">
+            <div class="dot active" id="dot2">●</div>
+            <div class="node-lbl">80%–85%</div>
+          </div>
+          <div class="node">
+            <div class="dot" id="dot3">🔒</div>
+            <div class="node-lbl">85%–90%</div>
           </div>
         </div>
 
-        <div class="card">
-          <div class="row" style="margin-bottom:8px;">
-            <strong>Quality &amp; Safety Gates</strong>
-            <span class="pill-ok">All Met ✓</span>
-          </div>
-          <div class="row" style="color:var(--muted); margin-bottom:4px;">
-            <span>Rating (min 4.70)</span><strong style="color:var(--text);">4.84 ★</strong>
-          </div>
-          <div class="row" style="color:var(--muted); margin-bottom:4px;">
-            <span>Cancel Rate (max 6%)</span><strong style="color:var(--text);">3.0%</strong>
-          </div>
-          <div class="row" style="color:var(--muted);">
-            <span>Safe-Shift Daily XP Cap</span><strong style="color:var(--green-dark);">5.5h / 10.0h</strong>
-          </div>
-        </div>
-
-        <div class="card">
-          <strong>Last Trip Transparent Receipt</strong>
-          <div class="row" style="margin-top:8px; color:var(--muted);">
-            <span>Gross Fare (Abdali → Sweifieh)</span><span>JOD 6.00</span>
-          </div>
-          <div class="row" style="margin-top:4px; color:var(--green-dark); font-weight:700;">
-            <span>Your 52% Share (Locked T4)</span><span>+JOD 3.12</span>
-          </div>
-          <div class="row" style="margin-top:4px; color:var(--muted);">
-            <span>XP Earned (Peak + Cashless)</span><span>+165 XP</span>
-          </div>
+        <div class="row" style="font-size:11.5px; opacity:0.95; margin-top:4px;">
+          <span id="nextGoalText">+4% remaining to reach 85%</span>
+          <span id="nextActionText">100 rides left</span>
         </div>
       </div>
 
-      <!-- SCREEN 2: BATTLE PASS -->
-      <div id="pass" class="screen">
-        <div class="card">
-          <strong>Season 11 Captain Pass</strong>
-          <div style="font-size:12px; color:var(--muted); margin-top:4px;">
-            Soft Reset: You never drop more than 2 tiers. Legacy Floor: T3.
-          </div>
+      <!-- SECTION 2: DISTANCE & COMPLETED RIDES -->
+      <div class="section-label">2. Distance &amp; Completed Rides</div>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🚗</div>
+          <div class="stat-val" id="ridesVal">150</div>
+          <div class="stat-lbl">Completed Rides</div>
+          <div class="bar-bg"><div class="bar-fill" id="ridesBar" style="width: 0%;"></div></div>
+          <div class="stat-next" id="ridesNext">25 rides to next +1%</div>
         </div>
-        <div class="tier-item"><div><strong>T1 Rookie</strong><div style="font-size:11px;color:var(--muted)">0 XP · Base Missions</div></div><strong>40%</strong></div>
-        <div class="tier-item"><div><strong>T2 Challenger</strong><div style="font-size:11px;color:var(--muted)">1,000 XP · Car Wash Deal</div></div><strong>44%</strong></div>
-        <div class="tier-item"><div><strong>T3 Contender</strong><div style="font-size:11px;color:var(--muted)">2,500 XP · JOD 3 Family Ride</div></div><strong>48%</strong></div>
-        <div class="tier-item current"><div><strong>T4 Pro (Current)</strong><div style="font-size:11px;color:var(--green-dark)">5,000 XP · Instant Cashout + Fuel</div></div><strong>52%</strong></div>
-        <div class="tier-item locked"><div><strong>T5 Elite</strong><div style="font-size:11px;color:var(--muted)">8,500 XP · Airport Queue + JOD 5 Quik</div></div><strong>56%</strong></div>
-        <div class="tier-item locked"><div><strong>T6 Legend (Cap)</strong><div style="font-size:11px;color:var(--muted)">13,000 XP · Family Careem Plus + Vault</div></div><strong>60%</strong></div>
+        <div class="stat-card">
+          <div class="stat-icon">📍</div>
+          <div class="stat-val" id="kmVal">900 km</div>
+          <div class="stat-lbl">Distance Traveled</div>
+          <div class="bar-bg"><div class="bar-fill" id="kmBar" style="width: 0%;"></div></div>
+          <div class="stat-next" id="kmNext">150 km = +1% (configurable)</div>
+        </div>
+      </div>
+      <div class="note" id="configNote">
+        Rule mode: 25 rides = +1% (distance equivalent: 150 km — configurable pending team confirmation)
       </div>
 
-      <!-- SCREEN 3: FOR YOU (LIFESTYLE & QUESTS) -->
-      <div id="foryou" class="screen">
-        <div class="card lifestyle-card">
-          <span class="quest-tag">🍔 FOR YOU · PARTNER FUNDED</span>
-          <div style="font-weight:800; margin-top:6px;">Post-Shift Burger Deal (40% Off)</div>
-          <div style="font-size:12px; color:var(--muted); margin-top:4px;">
-            Based on your evening Careem Food orders. Valid 22:00–00:00 near Sweifieh. Zero cost to your split budget.
+      <!-- SECTION 3: REWARDS -->
+      <div class="section-label">3. Rewards</div>
+
+      <div class="reward-card done" id="rew1">
+        <div class="reward-icon">🧽</div>
+        <div class="reward-body">
+          <div class="reward-top">
+            <span class="reward-range">75% – 80%</span>
+            <span class="status-pill status-done" id="st1">Completed</span>
           </div>
-          <button class="btn" onclick="showToast('Burger voucher saved to Careem Food!')">Claim in Careem Food</button>
-        </div>
-
-        <div class="card">
-          <div class="row"><span class="quest-tag">GUARANTEED QUEST</span><strong>+50 XP</strong></div>
-          <div style="font-weight:700; margin-top:6px;">Safe-Shift Break</div>
-          <div style="font-size:12px; color:var(--muted);">Take a 30-min rest after 4h driving (tea discount included).</div>
-        </div>
-
-        <div class="card">
-          <div class="row"><span class="quest-tag">WEEKLY FLEX</span><strong>+350 XP</strong></div>
-          <div style="font-weight:700; margin-top:6px;">Complete 15 Rides This Week</div>
-          <div style="font-size:12px; color:var(--muted);">Part-time friendly · Progress: 11 / 15 rides.</div>
+          <div class="reward-title">Partner Car Wash &amp; Oil-Change Discount</div>
+          <div class="reward-req" id="req1">Unlocked at 75%+</div>
         </div>
       </div>
 
-      <!-- SCREEN 4: FAMILY VAULT -->
-      <div id="family" class="screen">
-        <div class="card">
-          <strong>Beit Careem · Family Vault</strong>
-          <div style="font-size:12px; color:var(--muted); margin-top:4px;">
-            Share earned Careem Rides, Quik &amp; Food codes with up to 3 household members.
+      <div class="reward-card current" id="rew2">
+        <div class="reward-icon">🎁</div>
+        <div class="reward-body">
+          <div class="reward-top">
+            <span class="reward-range">80% – 85%</span>
+            <span class="status-pill status-current" id="st2">Current</span>
           </div>
-          <div style="margin-top:8px; font-size:12px; color:var(--green-dark); font-weight:700;">
-            Remaining Season Reward Budget: JOD 14.50
-          </div>
+          <div class="reward-title">1 Family Ride + Food Promo Code (up to 3 JOD)</div>
+          <div class="reward-req" id="req2">Active in your current range</div>
         </div>
+      </div>
 
-        <div class="card">
-          <div class="row">
-            <div><strong>Fatima (Spouse)</strong><div style="font-size:11px;color:var(--muted);">Verified Careem Account</div></div>
-            <span class="pill-ok">Active</span>
+      <div class="reward-card locked" id="rew3">
+        <div class="reward-icon">⚡</div>
+        <div class="reward-body">
+          <div class="reward-top">
+            <span class="reward-range">85% – 90%</span>
+            <span class="status-pill status-locked" id="st3">Locked</span>
           </div>
-          <button class="btn" onclick="showToast('Sent BEIT-AHM-QUI5 (JOD 5 Quik Code) to Fatima!')">Send JOD 5 Quik Grocery Code</button>
-        </div>
-
-        <div class="card">
-          <div class="row">
-            <div><strong>Omar (Son · University)</strong><div style="font-size:11px;color:var(--muted);">Verified Careem Account</div></div>
-            <span class="pill-ok">Active</span>
-          </div>
-          <button class="btn btn-outline" onclick="showToast('Sent BEIT-AHM-RID3 (JOD 3 Ride Code) to Omar!')">Send JOD 3 Safe-Ride Code</button>
+          <div class="reward-title">Instant Careem Cashout</div>
+          <div class="reward-req" id="req3">Reach 85% (+4% / 100 rides) to unlock</div>
         </div>
       </div>
     </div>
 
-    <div class="nav">
-      <button class="active" onclick="switchTab('hub', this)"><span>🏠</span>Hub</button>
-      <button onclick="switchTab('pass', this)"><span>🏆</span>Pass</button>
-      <button onclick="switchTab('foryou', this)"><span>🍔</span>For You</button>
-      <button onclick="switchTab('family', this)"><span>👨‍👩‍👧</span>Family</button>
+    <!-- Preview Simulator Bar -->
+    <div class="sim-bar">
+      <button class="btn" onclick="addProgress(25, 150)">+25 Rides (+1%)</button>
+      <button class="btn btn-sec" onclick="resetDemo()">Reset (75%)</button>
     </div>
   </div>
-  <div class="toast" id="toast"></div>
 
   <script>
-    const markets = ["🇯🇴 Amman (JOD)", "🇦🇪 Dubai (AED)", "🇸🇦 Riyadh (SAR)", "🇪🇬 Cairo (EGP)"];
-    let mIdx = 0;
-    function cycleMarket() {
-      mIdx = (mIdx + 1) % markets.length;
-      document.getElementById("marketBtn").textContent = markets[mIdx];
-      showToast("Switched preview config to " + markets[mIdx]);
+    // Configurable progression constants (flagged for final team confirmation)
+    const CONFIG = {
+      basePct: 75,
+      maxExtraPct: 15,      // Cap at 90%
+      ridesPerPct: 25,
+      kmPerPct: 150,        // Note: 25 rides * 7 km = 175 km != 150 km
+      mode: "rides"         // "rides" or "distance"
+    };
+
+    let rides = 150;
+    let km = 900;
+
+    function render() {
+      const earnedPct = Math.min(
+        CONFIG.maxExtraPct,
+        CONFIG.mode === "rides"
+          ? Math.floor(rides / CONFIG.ridesPerPct)
+          : Math.floor(km / CONFIG.kmPerPct)
+      );
+      const currentPct = CONFIG.basePct + earnedPct;
+      const careemCut = 100 - currentPct;
+
+      document.getElementById("pctDisplay").textContent = currentPct + "%";
+      document.getElementById("cutDisplay").textContent = "Careem Cut: " + careemCut + "%";
+
+      const rangeText = currentPct < 80 ? "75% – 80%" : currentPct < 85 ? "80% – 85%" : "85% – 90%";
+      document.getElementById("rangeDisplay").textContent =
+        `Current Range: ${rangeText} (+${earnedPct}% earned of +${CONFIG.maxExtraPct}%)`;
+
+      const fillPct = (earnedPct / CONFIG.maxExtraPct) * 100;
+      document.getElementById("trackFill").style.width = fillPct + "%";
+
+      // Update nodes
+      setNode("dot1", currentPct >= 80 ? "done" : "active");
+      setNode("dot2", currentPct >= 85 ? "done" : currentPct >= 80 ? "active" : "locked");
+      setNode("dot3", currentPct >= 90 ? "done" : currentPct >= 85 ? "active" : "locked");
+
+      // Next tier text
+      if (currentPct >= 90) {
+        document.getElementById("nextGoalText").textContent = "Maximum 90% reached!";
+        document.getElementById("nextActionText").textContent = "All rewards unlocked";
+      } else {
+        const nextMilestone = currentPct < 80 ? 80 : currentPct < 85 ? 85 : 90;
+        const pctLeft = nextMilestone - currentPct;
+        const ridesLeft = pctLeft * CONFIG.ridesPerPct - (rides % CONFIG.ridesPerPct);
+        document.getElementById("nextGoalText").textContent = `+${pctLeft}% remaining to reach ${nextMilestone}%`;
+        document.getElementById("nextActionText").textContent = `${ridesLeft} rides left`;
+      }
+
+      // Section 2 stats
+      document.getElementById("ridesVal").textContent = rides;
+      document.getElementById("kmVal").textContent = km + " km";
+      const rMod = rides % CONFIG.ridesPerPct;
+      const kMod = km % CONFIG.kmPerPct;
+      document.getElementById("ridesBar").style.width = ((rMod / CONFIG.ridesPerPct) * 100) + "%";
+      document.getElementById("kmBar").style.width = ((kMod / CONFIG.kmPerPct) * 100) + "%";
+      document.getElementById("ridesNext").textContent =
+        currentPct >= 90 ? "Max +15% reached" : `${CONFIG.ridesPerPct - rMod} rides to next +1%`;
+      document.getElementById("kmNext").textContent =
+        currentPct >= 90 ? "Max +15% reached" : `${CONFIG.kmPerPct - kMod} km to next +1%`;
+
+      // Section 3 rewards
+      setReward("rew1", "st1", "req1", currentPct >= 80 ? "done" : "current", "Unlocked at 75%");
+      setReward("rew2", "st2", "req2",
+        currentPct >= 85 ? "done" : currentPct >= 80 ? "current" : "locked",
+        currentPct >= 80 ? "Active in your range" : `Reach 80% (+${80 - currentPct}% / ${(80 - currentPct) * 25} rides) to unlock`
+      );
+      setReward("rew3", "st3", "req3",
+        currentPct >= 90 ? "done" : currentPct >= 85 ? "current" : "locked",
+        currentPct >= 85 ? "Unlocked at 85%+" : `Reach 85% (+${85 - currentPct}% / ${(85 - currentPct) * 25} rides) to unlock`
+      );
     }
-    function switchTab(id, btn) {
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
-      btn.classList.add("active");
+
+    function setNode(id, state) {
+      const el = document.getElementById(id);
+      el.className = "dot" + (state === "done" ? " done" : state === "active" ? " active" : "");
+      el.textContent = state === "done" ? "✓" : state === "active" ? "●" : "🔒";
     }
-    function showToast(msg) {
-      const t = document.getElementById("toast");
-      t.textContent = msg;
-      t.style.display = "block";
-      setTimeout(() => t.style.display = "none", 2600);
+
+    function setReward(cardId, pillId, reqId, state, reqText) {
+      const card = document.getElementById(cardId);
+      const pill = document.getElementById(pillId);
+      card.className = "reward-card " + state;
+      pill.className = "status-pill status-" + state;
+      pill.textContent = state === "done" ? "Completed" : state === "current" ? "Current" : "Locked";
+      document.getElementById(reqId).textContent = reqText;
     }
+
+    function addProgress(r, k) {
+      rides += r;
+      km += k;
+      render();
+    }
+
+    function resetDemo() {
+      rides = 0;
+      km = 0;
+      render();
+    }
+
+    render();
   </script>
 </body>
 </html>
