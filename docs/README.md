@@ -16,6 +16,7 @@ Complete, implementation-ready engineering specification for **Royalty** (Careem
 | **08** | **Royalty Deployment, Operations & Reliability** | [MD](engineering/deployment/08-royalty-deployment-operations-reliability.md) | [PDF](engineering/deployment/08%20%E2%80%94%20Royalty%20Deployment%2C%20Operations%20%26%20Reliability.pdf) |
 | **09** | **Royalty Frontend Engineering Handoff** | [MD](engineering/frontend-handoff/09-royalty-frontend-engineering-handoff.md) | [PDF](engineering/frontend-handoff/09%20%E2%80%94%20Royalty%20Frontend%20Engineering%20Handoff.pdf) |
 | **10** | **Royalty Engineering Roadmap & Implementation Plan** | [MD](engineering/roadmap/10-royalty-engineering-roadmap-implementation-plan.md) | [PDF](engineering/roadmap/10%20%E2%80%94%20Royalty%20Engineering%20Roadmap%20%26%20Implementation%20Plan.pdf) |
+| **11** | **Royalty Beginner-to-End Code Implementation Guide** | [MD](engineering/roadmap/11-royalty-beginner-to-end-implementation-guide.md) | [PDF](engineering/roadmap/11%20%E2%80%94%20Royalty%20Beginner-to-End%20Code%20Implementation%20Guide.pdf) |
 
 ## Machine-Readable Artifacts
 
