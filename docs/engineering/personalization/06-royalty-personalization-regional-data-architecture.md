@@ -13,7 +13,7 @@
 5. **Reward Discovery:** Queries `reward_catalog` + `partner_organizations` (prioritizing **partner-funded** zero-cost deals when direct budget is tight).
 6. **Recommendation Generation:** Ranks eligible offers by category match + time-of-day shift fit (e.g., 22:00 post-shift burger deal).
 7. **Cold-Start Fallback:** If the Captain shared zero preferences, ranks **generic high-utility offers** (fuel rebates, Safe-Shift tea, Weekly Flex quests) so Royalty works 100% out of the box.
-8. **Recommendation Explanation:** Every card includes a transparent `explanation_text` (e.g., *"Matched because you opted into Food perks · Funded by Partner"*).
+8. **Recommendation Explanation:** Every card includes a transparent `explanation_text` (e.g., *"Matched because you opted into Food perks · Funded by Partner"*), optionally phrased in natural Arabic/English via **AWS Bedrock** using PII-free category tags only.
 9. **Measurement:** Tracks click-to-redeem conversion without storing sensitive raw behavioral logs.
 
 ---

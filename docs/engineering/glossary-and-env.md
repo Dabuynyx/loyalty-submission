@@ -30,4 +30,8 @@ CAREEM_OAUTH_REDIRECT_URI=http://localhost:8080/callback
 JWT_AUDIENCE=royalty-api
 ENABLE_LIFESTYLE_PERSONALIZATION=true
 ENABLE_FAMILY_BENEFITS=true
+
+# AWS Bedrock (PII-Free Co-Pilot Explanations)
+AWS_REGION=me-south-1
+BEDROCK_MODEL_ID=anthropic.claude-3-5-sonnet-20241022-v2:0
 ```

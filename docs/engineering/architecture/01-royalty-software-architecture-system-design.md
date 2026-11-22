@@ -58,3 +58,13 @@ Per **ADR-0001**, Royalty launches as a **Modular Monolith** backed by PostgreSQ
 | **MCP Bridge** | Invokes Careem MCP (`OAuth2 PKCE`) + hosts Captain MCP | Tool calls → Structured JSON | Circuit breaker (5 failures → 30s open); **never auto-retries mutating tools**. |
 | **Personalization & Consent** | Opt-in lifestyle ranking | `consent_records` + `get_activities` → Ranked offers | Falls back to cold-start quests if consent=false or Careem MCP unavailable. |
 | **Audit & Outbox Worker** | Reliable event publishing & compliance trail | `outbox_events` → Event Bus / Partner Webhook | Dead-letter queue after 5 exponential retries; alert if lag > 30s. |
+
+---
+
+## 5. Hackathon Toolchain Alignment: AWS Bedrock & Kiro
+
+- **AWS Bedrock (Co-Pilot AI & Localization Layer):**
+  - **Role:** Generates natural-language Arabic/English explanations for trip receipts, Daily Quest nudges, and lifestyle offer phrasing (e.g., *"Post-Shift Burger"* card copy).
+  - **Strict Boundary:** Bedrock **never** calculates splits, XP, or `remaining_reward_budget_jod`—all financial and eligibility math stays 100% deterministic in `reward_engine` (`algorithm.py`). Prompts contain only coarse category tags and pseudonymous tier state (zero PII).
+- **Kiro (Spec-Driven Development Workflow):**
+  - **Role:** Uses Royalty's machine-readable specs (`docs/api/openapi.yaml`, `docs/schemas/database/001_initial_schema.sql`, `docs/testing/test-catalog.md`, and `docs/adr/*`) as authoritative Kiro steering/spec inputs so generated backend routers, DB migrations, and contract tests stay locked to the architecture.
