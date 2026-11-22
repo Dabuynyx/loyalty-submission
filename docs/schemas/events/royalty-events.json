@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Royalty Domain Events",
+  "definitions": {
+    "EventEnvelope": {
+      "type": "object",
+      "required": ["event_id", "event_type", "occurred_at", "idempotency_key", "country_code", "payload"],
+      "properties": {
+        "event_id": { "type": "string", "format": "uuid" },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "CaptainOnboarded",
+            "TripCompleted",
+            "TierUpgraded",
+            "RewardIssued",
+            "RewardRedeemed",
+            "RewardExpired",
+            "FamilyBenefitAssigned",
+            "PreferenceUpdated",
+            "CountryConfigUpdated"
+          ]
+        },
+        "occurred_at": { "type": "string", "format": "date-time" },
+        "idempotency_key": { "type": "string" },
+        "country_code": { "type": "string", "pattern": "^[A-Z]{2}$" },
+        "payload": { "type": "object" }
+      }
+    }
+  }
+}

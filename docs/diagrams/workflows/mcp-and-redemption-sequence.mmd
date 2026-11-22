@@ -1,0 +1,18 @@
+sequenceDiagram
+  autonumber
+  participant C as Captain
+  participant R as Royalty API / MCP Ext
+  participant DB as PostgreSQL (Budget Lock)
+  participant F as Family Member
+  participant CMCP as Careem MCP (mcp.careemapis.com)
+
+  C->>R: Assign JOD 5 Quik benefit to Spouse
+  R->>DB: BEGIN TX + SELECT reward_budgets FOR UPDATE
+  DB-->>R: Remaining budget = JOD 14.50 (OK)
+  R->>DB: INSERT promotional_codes + outbox_event + COMMIT
+  R-->>C: Code BEIT-AHM-QUI5 issued
+  F->>CMCP: user_info() + search_groceries_items()
+  CMCP-->>F: Home coords + catalog_item_ids
+  F->>CMCP: create_grocery_cart_with_quantities (⚠️ confirm)
+  F->>CMCP: cart_get_basket_price() -> shows BEIT-AHM-QUI5 discount
+  F->>CMCP: cart_grocery_checkout (⚠️ explicit user yes)

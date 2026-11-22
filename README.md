@@ -32,6 +32,14 @@
 | **10** | **Royalty Global Expansion, Lifestyle Intelligence & UI/UX** | [MD](docs/global-expansion/10-royalty-global-expansion-lifestyle-ui.md) | [PDF](docs/global-expansion/10%20%E2%80%94%20Royalty%20Global%20Expansion%2C%20Lifestyle%20Intelligence%20%26%20UI_UX.pdf) |
 
 - **Interactive UI/UX Prototype (No Backend):** [docs/ui-prototype/index.html](docs/ui-prototype/index.html) — Clickable Careem-branded mobile mockup (Hub, Battle Pass, For You Lifestyle Deals, and Beit Careem Family Vault).
+- **Complete Software Engineering Documentation (10 Engineering PDFs + OpenAPI 3.1 + SQL + Diagrams + ADRs):** [docs/README.md](docs/README.md)
+
+---
+
+## Implementation Status (Documented vs. Implemented)
+
+- **Implemented (Prototype Core Only):** `src/royalty/algorithm.py`, `src/royalty/mcp_server.py`, and `tests/test_royalty.py` (`5/5` unit tests passing).
+- **Documented for Engineering Implementation (Not Yet Built):** Production modular monolith backend, PostgreSQL schema (`001_initial_schema.sql`), OpenAPI 3.1 endpoints (`openapi.yaml`), OAuth 2.0 PKCE Careem MCP client bridge, and production mobile/web frontend.
 
 ---
 

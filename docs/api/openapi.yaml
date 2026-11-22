@@ -1,0 +1,245 @@
+openapi: 3.1.0
+info:
+  title: Royalty Captain Loyalty & Rewards API
+  version: 1.0.0
+  description: >
+    Backend HTTP API for Royalty (Careem Builders '26). Enforces deterministic tier splits,
+    strict percentage reward budget caps, Beit Careem family benefits, and multi-country config.
+servers:
+  - url: https://api.royalty.internal/v1
+    description: Internal Careem-integrated production gateway (placeholder)
+  - url: http://localhost:8000/v1
+    description: Local development server
+security:
+  - CareemOAuthPKCE: [openid, profile]
+paths:
+  /captains/{captain_id}/loyalty/status:
+    get:
+      summary: Retrieve Captain loyalty status, tier split, XP, and remaining budget
+      parameters:
+        - $ref: '#/components/parameters/CaptainId'
+      responses:
+        '200':
+          description: Current Captain loyalty status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaptainLoyaltyStatus'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+  /captains/{captain_id}/loyalty/progression:
+    get:
+      summary: Retrieve Captain seasonal XP progression and tier ladder
+      parameters:
+        - $ref: '#/components/parameters/CaptainId'
+      responses:
+        '200':
+          description: Progression history and tier thresholds
+  /captains/{captain_id}/rewards/available:
+    get:
+      summary: Retrieve available catalog rewards filtered by country, tier, and eligibility
+      parameters:
+        - $ref: '#/components/parameters/CaptainId'
+      responses:
+        '200':
+          description: Eligible rewards list
+  /rewards/{reward_id}:
+    get:
+      summary: Retrieve reward details and terms
+      parameters:
+        - name: reward_id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Reward detail
+  /captains/{captain_id}/recommendations:
+    get:
+      summary: Retrieve personalized lifestyle & shift recommendations (consent & budget filtered)
+      parameters:
+        - $ref: '#/components/parameters/CaptainId'
+      responses:
+        '200':
+          description: Ranked recommendations with plain-English explanations
+  /captains/{captain_id}/preferences:
+    put:
+      summary: Update Captain lifestyle preferences and opt-in consent state
+      parameters:
+        - $ref: '#/components/parameters/CaptainId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreferenceUpdate'
+      responses:
+        '200':
+          description: Updated preferences
+  /captains/{captain_id}/family-benefits:
+    get:
+      summary: Retrieve registered family beneficiaries and issued family codes
+      parameters:
+        - $ref: '#/components/parameters/CaptainId'
+      responses:
+        '200':
+          description: Family beneficiaries and benefit entitlements
+  /captains/{captain_id}/family-benefits/assign:
+    post:
+      summary: Assign a budget-checked family benefit promo code to a verified household beneficiary
+      parameters:
+        - $ref: '#/components/parameters/CaptainId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FamilyAssignRequest'
+      responses:
+        '201':
+          description: Family promo code issued
+        '409':
+          description: Duplicate idempotency key or budget cap exceeded
+  /captains/{captain_id}/rewards/{reward_id}/redeem:
+    post:
+      summary: Redeem an eligible reward atomically with row-level budget locking
+      parameters:
+        - $ref: '#/components/parameters/CaptainId'
+        - name: reward_id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+        - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '201':
+          description: Redemption confirmed
+        '409':
+          description: Insufficient budget, inventory exhausted, or already redeemed
+  /captains/{captain_id}/redemptions:
+    get:
+      summary: Retrieve Captain redemption history
+      parameters:
+        - $ref: '#/components/parameters/CaptainId'
+      responses:
+        '200':
+          description: Paginated redemption ledger
+  /captains/{captain_id}/eligibility:
+    get:
+      summary: Evaluate real-time reward & tier eligibility including quality gates
+      parameters:
+        - $ref: '#/components/parameters/CaptainId'
+      responses:
+        '200':
+          description: Eligibility breakdown
+  /config/countries/{country_code}:
+    get:
+      summary: Retrieve country-specific currency, tier curve, and vertical config
+      parameters:
+        - name: country_code
+          in: path
+          required: true
+          schema: { type: string, pattern: '^[A-Z]{2}$' }
+      responses:
+        '200':
+          description: Country configuration
+  /events/trips/completed:
+    post:
+      summary: Process an authorized TripCompleted event from Careem Dispatch (internal service)
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TripCompletedEvent'
+      responses:
+        '202':
+          description: Event accepted for deterministic split & XP processing
+  /admin/catalog:
+    post:
+      summary: Create or update reward catalog item (Admin role required)
+      responses:
+        '201': { description: Catalog item saved }
+  /admin/budgets/{country_code}:
+    put:
+      summary: Configure country reward budget cap percentage (Admin role required)
+      parameters:
+        - name: country_code
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Budget policy updated }
+  /admin/partners/offers:
+    post:
+      summary: Onboard or update partner-funded offer (Admin/Ops role required)
+      responses:
+        '201': { description: Partner offer saved }
+components:
+  securitySchemes:
+    CareemOAuthPKCE:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://identity.careem.com/authorize
+          tokenUrl: https://identity.careem.com/token
+          scopes:
+            openid: OpenID identity
+            profile: User profile
+  parameters:
+    CaptainId:
+      name: captain_id
+      in: path
+      required: true
+      schema: { type: string }
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema: { type: string, format: uuid }
+  responses:
+    Unauthorized:
+      description: Missing or invalid bearer token
+    Forbidden:
+      description: Insufficient role or cross-country access denied
+  schemas:
+    CaptainLoyaltyStatus:
+      type: object
+      required: [captain_id, country_code, tier, tier_name, careem_pct, driver_pct, season_xp, remaining_reward_budget_local]
+      properties:
+        captain_id: { type: string }
+        country_code: { type: string, example: JO }
+        tier: { type: integer, minimum: 1, maximum: 6 }
+        tier_name: { type: string, example: Pro }
+        careem_pct: { type: number, example: 0.48 }
+        driver_pct: { type: number, example: 0.52 }
+        season_xp: { type: integer, example: 5400 }
+        remaining_reward_budget_local: { type: number, example: 14.5 }
+    PreferenceUpdate:
+      type: object
+      required: [personalization_opt_in]
+      properties:
+        personalization_opt_in: { type: boolean }
+        categories:
+          type: array
+          items: { type: string, example: burgers }
+    FamilyAssignRequest:
+      type: object
+      required: [beneficiary_id, vertical, amount_local]
+      properties:
+        beneficiary_id: { type: string }
+        vertical: { type: string, enum: [RIDES, QUIK, FOOD] }
+        amount_local: { type: number, minimum: 0.5 }
+    TripCompletedEvent:
+      type: object
+      required: [trip_id, captain_id, country_code, gross_fare_local, distance_km]
+      properties:
+        trip_id: { type: string }
+        captain_id: { type: string }
+        country_code: { type: string }
+        gross_fare_local: { type: number, minimum: 0 }
+        distance_km: { type: number, minimum: 0 }
+        is_peak: { type: boolean }
+        is_cashless: { type: boolean }

@@ -1,0 +1,26 @@
+flowchart LR
+  subgraph Careem["Careem Platform (External Owner)"]
+    CD[Careem Dispatch & Trips]
+    CI[Careem Identity OAuth2 PKCE]
+    CMCP[Official Careem MCP<br/>mcp.careemapis.com/mcp]
+  end
+
+  subgraph Royalty["Royalty Modular Monolith (MVP)"]
+    API[Royalty REST API]
+    AUTH[Auth & RBAC Guard]
+    ALG[Reward & Budget-Cap Engine]
+    FAM[Beit Careem Family Service]
+    PERS[Personalization & Consent]
+    MCPEXT[Royalty Captain MCP Extension]
+    DB[(PostgreSQL + Outbox)]
+  end
+
+  CAP[Captain App / UI] -->|HTTPS + JWT| API
+  FAMUI[Family Careem App] -->|OAuth2 PKCE| CMCP
+  CD -->|TripCompleted Webhook| API
+  API --> AUTH --> ALG
+  ALG --> DB
+  FAM --> ALG
+  PERS --> ALG
+  MCPEXT --> ALG
+  CI -.->|Verify Token| AUTH
