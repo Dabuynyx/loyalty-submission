@@ -208,3 +208,18 @@ Paste this block directly into your LLM agent’s system prompt (Claude, ChatGPT
   - `royalty_calculate_trip_split` (Read-Only) — Deterministic split & fatigue-safe XP preview.
   - `royalty_get_missions` (Read-Only) — Active guaranteed & part-time flex missions.
   - `royalty_issue_family_promo` (⚠️ Mutating) — Budget-capped household promo code issuance.
+
+---
+
+## 6. Curated MVP Selection: The Best 12 Official Careem MCP Tools for Royalty
+
+Rather than wiring all 50 tools at once, Royalty’s MVP focuses on the **12 highest-impact official Careem MCP tools** paired with our **4 custom Royalty MCP tools**:
+
+| Royalty Feature | Selected Careem MCP Tools | Why These Tools? |
+| :--- | :--- | :--- |
+| **Context & Lifestyle Personalization** | 1. `user_info`<br>2. `get_activities` | Resolves `Home`/`Work` coords; reads opt-in past Food/Ride history (`past`) and verifies state on timeout (`ongoing`). |
+| **Off-Peak Captain Meals & Food Partner Loop** | 3. `food_personalized_search`<br>4. `food_dish_search`<br>5. `food_get_restaurant_menu`<br>6. `food_get_item_options` | Surfaces Partner Royalty restaurants offering 30%–40% off-peak Captain meals (e.g., burgers) and resolves exact `catalog_option_id`s. |
+| **80%–85% Reward: Family Ride + 3 JOD Food Promo** | 7. `cart_add_item` ⚠️<br>8. `cart_get_checkout_promos`<br>9. `cart_get_basket_price`<br>10. `cart_checkout` ⚠️<br>11. `apply_promotion_code` ⚠️ *(Prod Early Access)* | Adds meal to basket, verifies the 3 JOD Royalty promo (`is_best_saving`), prices before checkout, confirms with user, and applies the Family Ride promo code. |
+| **Optional Super-App Quik Hook** | 12. `create_grocery_cart_with_quantities` ⚠️ *(+ `search_groceries_items`)* | Converts a household shopping list into a Careem Quik grocery basket in one batch call. |
+
+**Deferred for Post-MVP (Skip 35+ Tools):** Careem Box (5), Specialty Shops (1), Ride Cancellation/Scheduling (6), and bulk Cart Reschedule/Delete tools are not required to prove the Captain + Food Partner Royalty flywheel. *(Note: `apply_promotion_code` is in the Rides domain — Early Access on Production only, not available in Local Sandbox).*
