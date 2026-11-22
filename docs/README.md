@@ -17,7 +17,8 @@ Complete, implementation-ready engineering specification for **Royalty** (Careem
 | **09** | **Royalty Frontend Engineering Handoff** | [MD](engineering/frontend-handoff/09-royalty-frontend-engineering-handoff.md) | [PDF](engineering/frontend-handoff/09%20%E2%80%94%20Royalty%20Frontend%20Engineering%20Handoff.pdf) |
 | **10** | **Royalty Engineering Roadmap & Implementation Plan** | [MD](engineering/roadmap/10-royalty-engineering-roadmap-implementation-plan.md) | [PDF](engineering/roadmap/10%20%E2%80%94%20Royalty%20Engineering%20Roadmap%20%26%20Implementation%20Plan.pdf) |
 | **11** | **Royalty Beginner-to-End Code Implementation Guide** | [MD](engineering/roadmap/11-royalty-beginner-to-end-implementation-guide.md) | [PDF](engineering/roadmap/11%20%E2%80%94%20Royalty%20Beginner-to-End%20Code%20Implementation%20Guide.pdf) |
-| **12** | **Suggestions — Deep Research on Unexplored Opportunities** | [MD](suggestions/Suggestions.md) | [PDF](suggestions/Suggestions.pdf) |
+| **12** | **Royalty Technical Intensification Blueprint (6 Core Upgrades)** | [MD](engineering/12-royalty-technical-intensification-blueprint.md) | [PDF](engineering/12%20%E2%80%94%20Royalty%20Technical%20Intensification%20Blueprint.pdf) |
+| **13** | **Suggestions — Deep Research on Unexplored Opportunities** | [MD](suggestions/Suggestions.md) | [PDF](suggestions/Suggestions.pdf) |
 
 ## Machine-Readable Artifacts
 
