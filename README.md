@@ -1,49 +1,43 @@
-# Careem Loyalty & Battle Pass System — Planning & Documentation
+# ROYALTY — Careem Builders ’26 (Amman, Jordan)
 
-> **Status:** Planning & Documentation Phase (No application code yet)  
-> **Target Market:** Jordan Ride-Hailing Ecosystem (Amman & Governorates)  
-> **Repository:** `loyalty-submission`
+> **Captain-First Loyalty, Household Benefits & Dual-Layer MCP Ecosystem**  
+> **Repository:** `Dabuynyx/loyalty-submission`
 
 ---
 
 ## Executive Summary
 
-Jordan's ride-hailing market is intensely competitive, with **Careem**, **Uber**, **Jeeny**, **Petra Ride**, and newer entrants competing for the same pool of drivers ("Captains") and riders. Because switching apps has near-zero friction, drivers multi-home across apps and chase short-term promos, driving up acquisition costs and hurting reliability during peak hours.
+**Royalty** is a next-generation Captain loyalty and engagement platform built for **Careem Builders ’26** in Amman, Jordan. It solves Jordan's acute multi-homing problem (Careem vs. Uber, Jeeny, Petra Ride, Gojo) by combining:
 
-This project designs a **Fortnite Battle Pass–inspired Loyalty & Progression System** for Careem in Jordan across three pillars:
-
-1. **Driver Tier & Dynamic Split System ("Captain Battle Pass"):** Drivers start at a **60% Careem / 40% Driver** earnings split (Tier 1) and progress through seasonal tiers up to a capped **40% Careem / 60% Driver** split (Tier 6). Leaving Careem for a competitor means sacrificing hard-earned progression and a higher take-home percentage.
-2. **Rider & Careem Plus Progression System:** Everyday riders earn XP and seasonal rewards, while **Careem Plus** subscribers (JOD 2.99/month in Jordan) unlock a **2x XP multiplier**, an **exclusive Premium Reward Track**, Surge Shield tokens, priority matching, and enhanced Careem Pay cashback.
-3. **Sustainable Monetization:** Careem funds lower top-tier commissions through higher driver utilization and retention, recurring subscription revenue (**Captain Pro Pass** + **Careem Plus**), blended portfolio margins, Careem Pay wallet adoption, and merchant-sponsored rewards.
-
----
-
-## Documentation Index
-
-| Document | Audience | Description | PDF |
-| :--- | :--- | :--- | :--- |
-| [01 — Driver Tier & Battle Pass System](docs/01-driver-tier-system.md) | Product, Operations, Engineering | The 6-tier progression curve (60/40 → 40/60), XP formulas, quests, Captain Pro Pass, anti-gaming gates, and JOD worked examples. | [PDF](docs/pdf/01-driver-tier-system.pdf) |
-| [02 — Rider & Careem Plus System](docs/02-rider-and-careem-plus-system.md) | Product, Growth, Marketing | Standard Rider Battle Pass vs. Careem Plus Enhanced Track, XP mechanics, and cross-ecosystem perks (Rides + Food + Pay). | [PDF](docs/pdf/02-rider-and-careem-plus-system.pdf) |
-| [03 — Business Model & Jordan Strategy](docs/03-business-model-and-jordan-market.md) | Executives, Investors, Judges | Jordan competitive analysis, Win-Win-Win value proposition, unit economics, monetization streams, and commission calibration note. | [PDF](docs/pdf/03-business-model-and-jordan-market.pdf) |
-| [04 — Technical Architecture & Data Model](docs/04-technical-architecture.md) | Engineering, Architects | Event-driven loyalty engine, domain schema, real-time split calculation, anti-fraud controls, and API surface. | [PDF](docs/pdf/04-technical-architecture.pdf) |
+1. **Dynamic 6-Tier Split & Battle Pass (`60/40 → 40/60`):** Captains progress from Tier 1 (**60% Careem / 40% Driver**) to a hard-capped Tier 6 (**40% Careem / 60% Driver**), with a deterministic **Reward Budget Cap Guard** (`src/royalty/algorithm.py`) ensuring overlapping bonuses and family promos never exceed Careem's permitted percentage limit.
+2. **"Beit Careem" Family Benefits:** Captains unlock household-bound Careem promo codes for **Careem Rides, Careem Quik groceries, Careem Food, and Careem Plus**—leveraging Careem's super-app moat that single-vertical competitors (Jeeny, Petra Ride) cannot match.
+3. **Ethical, Fatigue-Safe Progression:** 10-hour daily XP caps, Safe-Shift break bonuses, part-time friendly Weekly Flex Quests, Tier Shields, and **Captain Legacy** permanent floor tiers.
+4. **Dual-Layer Careem MCP Architecture:** Audited all **50 tools across 8 domains** on `https://mcp.careemapis.com/mcp`. Because Careem's official MCP is consumer-only, Royalty pairs **Careem MCP** (for household promo redemption, Quik grocery baskets, and Box deliveries) with a custom **Royalty Captain MCP Extension** (`src/royalty/mcp_server.py`).
 
 ---
 
-## Quick Overview: The Driver Split Curve
+## Deliverables (9 Separate PDFs + Editable Markdown)
 
-| Tier | Name | Careem Share | Driver Share | Season XP Required | Key Unlock |
-| :---: | :--- | :---: | :---: | :---: | :--- |
-| **T1** | Rookie | **60%** | **40%** | 0 XP | Base access & Daily Quests |
-| **T2** | Challenger | **56%** | **44%** | 1,000 XP | +4% Driver Split, Fuel Voucher |
-| **T3** | Contender | **52%** | **48%** | 2,500 XP | +8% Driver Split, Priority Airport Queue |
-| **T4** | Pro | **48%** | **52%** | 5,000 XP | +12% Driver Split, Instant Payouts |
-| **T5** | Elite | **44%** | **56%** | 8,500 XP | +16% Driver Split, Peak Surge Multiplier |
-| **T6** | Legend | **40%** | **60%** | 13,000 XP | Max 60% Driver Split, VIP Support & Tier Shield |
+| # | Document Title | Markdown | PDF |
+| :---: | :--- | :---: | :---: |
+| **01** | **Royalty Master Product Strategy** | [MD](docs/product-strategy/01-royalty-master-product-strategy.md) | [PDF](docs/product-strategy/01%20%E2%80%94%20Royalty%20Master%20Product%20Strategy.pdf) |
+| **02** | **Royalty MCP Technical Architecture** | [MD](docs/technical-architecture/02-royalty-mcp-technical-architecture.md) | [PDF](docs/technical-architecture/02%20%E2%80%94%20Royalty%20MCP%20Technical%20Architecture.pdf) |
+| **03** | **Royalty Captain Loyalty & Progression System** | [MD](docs/captain-experience/03-royalty-captain-loyalty-progression-system.md) | [PDF](docs/captain-experience/03%20%E2%80%94%20Royalty%20Captain%20Loyalty%20%26%20Progression%20System.pdf) |
+| **04** | **Royalty Incentive Economics & Reward Algorithm** | [MD](docs/incentive-economics/04-royalty-incentive-economics-reward-algorithm.md) | [PDF](docs/incentive-economics/04%20%E2%80%94%20Royalty%20Incentive%20Economics%20%26%20Reward%20Algorithm.pdf) |
+| **05** | **Royalty Family Benefits & Partnerships** | [MD](docs/family-benefits/05-royalty-family-benefits-partnerships.md) | [PDF](docs/family-benefits/05%20%E2%80%94%20Royalty%20Family%20Benefits%20%26%20Partnerships.pdf) |
+| **06** | **Royalty Competitive Research & Differentiation** | [MD](docs/competitive-research/06-royalty-competitive-research-differentiation.md) | [PDF](docs/competitive-research/06%20%E2%80%94%20Royalty%20Competitive%20Research%20%26%20Differentiation.pdf) |
+| **07** | **Royalty Captain UX & Implementation Roadmap** | [MD](docs/captain-experience/07-royalty-captain-ux-implementation-roadmap.md) | [PDF](docs/captain-experience/07%20%E2%80%94%20Royalty%20Captain%20UX%20%26%20Implementation%20Roadmap.pdf) |
+| **08** | **Royalty Extra: Rider Experience & Careem Plus** *(Supplementary)* | [MD](docs/rider-experience/08-royalty-extra-rider-experience.md) | [PDF](docs/rider-experience/Royalty_Extra_Rider_Experience.pdf) |
+| **09** | **Royalty Research Sources & Assumptions** | [MD](docs/research-sources/09-royalty-research-sources-assumptions.md) | [PDF](docs/research-sources/09%20%E2%80%94%20Royalty%20Research%20Sources%20%26%20Assumptions.pdf) |
 
 ---
 
-## Next Steps
+## Code & Verification (`src/` & `tests/`)
 
-1. Review the four planning documents and PDFs.
-2. Finalize key business parameters (season length, fleet vs. independent driver commission calibration, Captain Pro Pass pricing).
-3. Move to Phase 2: Implementation (Backend Loyalty Engine, Driver/Rider UI mockups, and Simulation Dashboard).
+- `src/royalty/algorithm.py` — Config-driven tier split calculator (`DEFAULT_FLEET_TIERS` 60/40→40/60 & `INDEPENDENT_JORDAN_TIERS` 28/72→14/86), fatigue-safe XP engine, soft reset, Legacy floor, and `remaining_reward_budget_jod` cap guard.
+- `src/royalty/mcp_server.py` — JSON-RPC 2.0 stdio MCP server exposing `royalty_get_captain_status`, `royalty_calculate_trip_split`, `royalty_get_missions`, and `royalty_issue_family_promo`.
+- `tests/test_royalty.py` — Unit tests verifying split caps, budget-cap enforcement, fatigue/wash-trip guards, soft reset, and MCP tools.
+
+```bash
+python3 -m unittest discover -s tests -v
+```
