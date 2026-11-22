@@ -7,12 +7,17 @@
 
 ## Executive Summary
 
-**Royalty** is a next-generation Captain loyalty and engagement platform built for **Careem Builders ’26** in Amman, Jordan. It solves Jordan's acute multi-homing problem (Careem vs. Uber, Jeeny, Petra Ride, Gojo) by combining:
+> **Canonical Model Notice (v2.0):** Following an architectural & unit-economics red-team review, **Royalty v2.0** standardizes on **Weekly Marginal Brackets (`75% → 85%`, `90%` on peak trips = ~21.5% blended Careem take)**, **Same-Day Digital Cashout for all Captains**, **Incremental-GMV Food Partner Royalty**, and **CBJ/PDPL-compliant Wallet loops (`Ride-to-Table`, `In-Sync Arrival`)**. See **[RED_TEAM_V2_UNIFIED_SPEC.pdf](docs/RED_TEAM_V2_UNIFIED_SPEC.pdf)** as the single source of truth. *(Earlier v1 docs `01`, `03`, `04` and `src/royalty/algorithm.py` reflect the superseded 6-tier `60/40 → 40/60` archive).*
 
-1. **Dynamic 6-Tier Split & Battle Pass (`60/40 → 40/60`):** Captains progress from Tier 1 (**60% Careem / 40% Driver**) to a hard-capped Tier 6 (**40% Careem / 60% Driver**), with a deterministic **Reward Budget Cap Guard** (`src/royalty/algorithm.py`) ensuring overlapping bonuses and family promos never exceed Careem's permitted percentage limit.
-2. **"Beit Careem" Family Benefits:** Captains unlock household-bound Careem promo codes for **Careem Rides, Careem Quik groceries, Careem Food, and Careem Plus**—leveraging Careem's super-app moat that single-vertical competitors (Jeeny, Petra Ride) cannot match.
-3. **Ethical, Fatigue-Safe Progression:** 10-hour daily XP caps, Safe-Shift break bonuses, part-time friendly Weekly Flex Quests, Tier Shields, and **Captain Legacy** permanent floor tiers.
-4. **Dual-Layer Careem MCP Architecture:** Audited all **50 tools across 8 domains** on `https://mcp.careemapis.com/mcp`. Because Careem's official MCP is consumer-only, Royalty pairs **Careem MCP** (for household promo redemption, Quik grocery baskets, and Box deliveries) with a custom **Royalty Captain MCP Extension** (`src/royalty/mcp_server.py`).
+**Royalty** is a next-generation Captain, Merchant, and Wallet loyalty ecosystem built for **Careem Builders ’26** in Amman, Jordan. It solves Jordan's acute multi-homing problem (Careem vs. Uber, Jeeny, Petra Ride, Talabat) by combining:
+
+1. **Weekly Marginal Captain Brackets (`75% → 85%`, `90%` Peak):** Captains earn `75%` (rides 1–30), `80%` (31–55), `85%` (56+), and `90%` on peak/hard-to-serve trips—protecting Careem's ~21.5% blended take-rate while paying maximum marginal value on the *next* ride.
+2. **Same-Day Cashout + "Beit Careem" Promo Codes:** Every Captain gets same-day digital cashout on Card/Wallet rides from Day 1 (fixing driver cash-only pushback) plus account-bound household Ride/Food promo codes.
+3. **Ride-to-Table & Food Partner Royalty:** Restaurants earn lower commission on *incremental* GMV above their 8-week baseline and sponsor customer rides to their venues via Careem's Super App.
+4. **Dual-Layer Careem MCP Architecture:** Audited all **50 tools across 8 domains** on `https://mcp.careemapis.com/mcp`, pairing Careem's Consumer MCP (Best 12 MVP tools) with a custom Royalty extension (`src/royalty/mcp_server.py`).
+
+### Canonical v2.0 Specification
+- **[RED_TEAM_V2_UNIFIED_SPEC.pdf](docs/RED_TEAM_V2_UNIFIED_SPEC.pdf)** ([MD](docs/RED_TEAM_V2_UNIFIED_SPEC.md)) — **Single Source of Truth (v2.0)** resolving all v1/v2 inconsistencies, unit-economics leaks, CBJ/JoMoPay compliance, and MCP workflows.
 
 ---
 
