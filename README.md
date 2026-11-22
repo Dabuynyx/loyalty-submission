@@ -29,6 +29,9 @@
 | **07** | **Royalty Captain UX & Implementation Roadmap** | [MD](docs/captain-experience/07-royalty-captain-ux-implementation-roadmap.md) | [PDF](docs/captain-experience/07%20%E2%80%94%20Royalty%20Captain%20UX%20%26%20Implementation%20Roadmap.pdf) |
 | **08** | **Royalty Extra: Rider Experience & Careem Plus** *(Supplementary)* | [MD](docs/rider-experience/08-royalty-extra-rider-experience.md) | [PDF](docs/rider-experience/Royalty_Extra_Rider_Experience.pdf) |
 | **09** | **Royalty Research Sources & Assumptions** | [MD](docs/research-sources/09-royalty-research-sources-assumptions.md) | [PDF](docs/research-sources/09%20%E2%80%94%20Royalty%20Research%20Sources%20%26%20Assumptions.pdf) |
+| **10** | **Royalty Global Expansion, Lifestyle Intelligence & UI/UX** | [MD](docs/global-expansion/10-royalty-global-expansion-lifestyle-ui.md) | [PDF](docs/global-expansion/10%20%E2%80%94%20Royalty%20Global%20Expansion%2C%20Lifestyle%20Intelligence%20%26%20UI_UX.pdf) |
+
+- **Interactive UI/UX Prototype (No Backend):** [docs/ui-prototype/index.html](docs/ui-prototype/index.html) — Clickable Careem-branded mobile mockup (Hub, Battle Pass, For You Lifestyle Deals, and Beit Careem Family Vault).
 
 ---
 
