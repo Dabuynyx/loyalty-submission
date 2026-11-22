@@ -32,6 +32,7 @@
 | **10** | **Royalty Global Expansion, Lifestyle Intelligence & UI/UX** | [MD](docs/global-expansion/10-royalty-global-expansion-lifestyle-ui.md) | [PDF](docs/global-expansion/10%20%E2%80%94%20Royalty%20Global%20Expansion%2C%20Lifestyle%20Intelligence%20%26%20UI_UX.pdf) |
 | **11** | **Partner Royalty — Careem Food (Restaurant & Merchant Side)** | [MD](docs/partner-royalty/Partner_Royalty_Careem_Food.md) | [PDF](docs/partner-royalty/Partner_Royalty_Careem_Food.pdf) |
 | **12** | **Careem Wallet — Customer Adoption & Royalty Strategy** | [MD](docs/wallet-adoption/Careem_Wallet_Customer_Adoption_Strategy.md) | [PDF](docs/wallet-adoption/Careem_Wallet_Customer_Adoption_Strategy.pdf) |
+| **13** | **Careem Wallet — Out-of-the-Box Moonshot Concepts** | [MD](docs/wallet-adoption/Careem_Wallet_Out_Of_The_Box_Ideas.md) | [PDF](docs/wallet-adoption/Careem_Wallet_Out_Of_The_Box_Ideas.pdf) |
 
 - **Interactive UI/UX Prototype (No Backend):** [docs/ui-prototype/index.html](docs/ui-prototype/index.html) — Clickable Careem-branded mobile mockup (Hub, Battle Pass, For You Lifestyle Deals, and Beit Careem Family Vault).
 - **Complete Software Engineering Documentation (10 Engineering PDFs + OpenAPI 3.1 + SQL + Diagrams + ADRs):** [docs/README.md](docs/README.md)
